@@ -5,9 +5,12 @@ const cartSlice = createSlice({
   initialState: {
     items: [],
     totalQuantity: 0,
-    totalAmount: 0,
   },
   reducers: {
+    replaceCart(state, action) {
+      state.totalQuantity = action.payload.totalQuantity;
+      state.items = action.payload.items;
+    },
     addItemToCart(state, action) {
       const newItem = action.payload;
       const existingItem = state.items.find((item) => item.id === newItem.id);
@@ -29,10 +32,10 @@ const cartSlice = createSlice({
     removeItemFromCart(state, action) {
       const id = action.payload;
       const existingItem = state.items.find((item) => item.id === id);
-      state.totalQuantity--; 
+      state.totalQuantity--;
       if (existingItem.quantity === 1) {
-          //filter for the item where the id is not equal to the id we are looking for.
-        state.items = state.items.filter(item => item.id !== id);
+        //filter for the item where the id is not equal to the id we are looking for.
+        state.items = state.items.filter((item) => item.id !== id);
       } else {
         existingItem.quantity--;
         //update price
@@ -40,7 +43,8 @@ const cartSlice = createSlice({
       }
     },
   },
-});
+}); 
+
 export const cartActions = cartSlice.actions;
 
 export default cartSlice.reducer;
